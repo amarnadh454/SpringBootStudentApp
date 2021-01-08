@@ -1,53 +1,62 @@
 package in.hcl.amar.config;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 public class StudentSecurityConfiguration extends WebSecurityConfigurerAdapter {
-	/*
-	 * 
-	 * 
-	 * //authentication
-	 * 
-	 * @Override protected void configure(AuthenticationManagerBuilder auth) throws
-	 * Exception {
-	 * 
-	 * auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").
-	 * authorities("ADMIN");
-	 * auth.inMemoryAuthentication().withUser("student").password("{noop}student").
-	 * authorities("STUDENT");
-	 * 
-	 * 
-	 * }
-	 * 
-	 * //authorization
-	 * 
-	 * @Override protected void configure(HttpSecurity http) throws Exception {
-	 * 
-	 * 
-	 * http.authorizeRequests()
-	 * 
-	 * .antMatchers("/home").permitAll() .antMatchers("/save").hasAuthority("ADMIN")
-	 * .antMatchers("/all").hasAuthority("ADMIN")
-	 * .antMatchers("/remove/{id}").hasAuthority("ADMIN")
-	 * .antMatchers("/modify/{id}").hasAuthority("ADMIN")
-	 * .antMatchers("/one/{id}").hasAnyAuthority("ADMIN","STUDENT")
-	 * .anyRequest().authenticated()
-	 * 
-	 * 
-	 * .and() .formLogin() .defaultSuccessUrl("/welcome", true)
-	 * 
-	 * 
-	 * .and() .logout() .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-	 * 
-	 * 
-	 * .and() .exceptionHandling() .accessDeniedPage("/denied")
-	 * 
-	 * .and().httpBasic() ;
-	 * 
-	 * }
-	 * 
-	 * 
-	 */}
+	
+	@Autowired
+    CustomAuthenticationProvider customAuthProvider;
+	
+	@Autowired
+	private BCryptPasswordEncoder pwdEncoder;
+	
+	//authentication
+	 @Override 
+	 protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	
+		 auth.authenticationProvider(customAuthProvider);
+    
+		 auth.inMemoryAuthentication()
+        .withUser("student")
+        .password(pwdEncoder.encode("password"))
+        .roles("USER");
+    
+	}
+	 
+	 
+	 @Override
+	    protected void configure(HttpSecurity http) throws Exception {
+	        http.httpBasic()
+	            .and()
+	            .authorizeRequests()
+	            .antMatchers("/api/**")
+	            .authenticated();
+	        
+	        http.cors().configurationSource(corsConfigurationSource());
+	        http.csrf().disable();
+	    }
+	    
+	    CorsConfigurationSource corsConfigurationSource() {
+	        CorsConfiguration configuration = new CorsConfiguration();
+	        List<String> allowOrigins = Arrays.asList("*");
+	        configuration.setAllowedOrigins(allowOrigins);
+	        configuration.setAllowedMethods(Collections.singletonList("*"));
+	        configuration.setAllowedHeaders(Collections.singletonList("*"));
+	        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+	        configuration.setAllowCredentials(true);
+	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	        source.registerCorsConfiguration("/**", configuration);
+	        return source;
+	    }
+	}

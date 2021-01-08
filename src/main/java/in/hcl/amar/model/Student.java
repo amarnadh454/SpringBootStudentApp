@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.springframework.stereotype.Component;
 
 import lombok.Data;
 @Data
@@ -23,41 +22,77 @@ public class Student {
 	private Double physics;
 	private Double chemistry;
 	
-
-
-	
-
-	
-	@Override
-	public String toString() {
-		return "Student [stdId=" + stdId + ", stdName=" + stdName + ", english=" + english + ", sanskrit=" + sanskrit
-				+ ", maths=" + maths + ", physics=" + physics + ", chemistry=" + chemistry + "]";
+	private String passpercentage;
+    private boolean active;
+	public Integer getStdId() {
+		return stdId;
 	}
-
-
-
-
-
-
+	public void setStdId(Integer stdId) {
+		this.stdId = stdId;
+	}
+	public String getStdName() {
+		return stdName;
+	}
+	public void setStdName(String stdName) {
+		this.stdName = stdName;
+	}
+	public Double getEnglish() {
+		return english;
+	}
+	public void setEnglish(Double english) {
+		this.english = english;
+	}
+	public Double getSanskrit() {
+		return sanskrit;
+	}
+	public void setSanskrit(Double sanskrit) {
+		this.sanskrit = sanskrit;
+	}
+	public Double getMaths() {
+		return maths;
+	}
+	public void setMaths(Double maths) {
+		this.maths = maths;
+	}
+	public Double getPhysics() {
+		return physics;
+	}
+	public void setPhysics(Double physics) {
+		this.physics = physics;
+	}
+	public Double getChemistry() {
+		return chemistry;
+	}
+	public void setChemistry(Double chemistry) {
+		this.chemistry = chemistry;
+	}
+	public String getPasspercentage() {
+		return passpercentage;
+	}
+	public void setPasspercentage(String passpercentage) {
+		this.passpercentage = passpercentage;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (active ? 1231 : 1237);
 		result = prime * result + ((chemistry == null) ? 0 : chemistry.hashCode());
 		result = prime * result + ((english == null) ? 0 : english.hashCode());
 		result = prime * result + ((maths == null) ? 0 : maths.hashCode());
+		result = prime * result + ((passpercentage == null) ? 0 : passpercentage.hashCode());
 		result = prime * result + ((physics == null) ? 0 : physics.hashCode());
 		result = prime * result + ((sanskrit == null) ? 0 : sanskrit.hashCode());
 		result = prime * result + ((stdId == null) ? 0 : stdId.hashCode());
 		result = prime * result + ((stdName == null) ? 0 : stdName.hashCode());
 		return result;
 	}
-
-
-
-
-
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -67,6 +102,8 @@ public class Student {
 		if (getClass() != obj.getClass())
 			return false;
 		Student other = (Student) obj;
+		if (active != other.active)
+			return false;
 		if (chemistry == null) {
 			if (other.chemistry != null)
 				return false;
@@ -81,6 +118,11 @@ public class Student {
 			if (other.maths != null)
 				return false;
 		} else if (!maths.equals(other.maths))
+			return false;
+		if (passpercentage == null) {
+			if (other.passpercentage != null)
+				return false;
+		} else if (!passpercentage.equals(other.passpercentage))
 			return false;
 		if (physics == null) {
 			if (other.physics != null)
@@ -104,140 +146,17 @@ public class Student {
 			return false;
 		return true;
 	}
-
-
-
-
-
-
-	public Integer getStdId() {
-		return stdId;
+	@Override
+	public String toString() {
+		return "Student [stdId=" + stdId + ", stdName=" + stdName + ", english=" + english + ", sanskrit=" + sanskrit
+				+ ", maths=" + maths + ", physics=" + physics + ", chemistry=" + chemistry + ", passpercentage="
+				+ passpercentage + ", active=" + active + "]";
 	}
-
-
-
-
-
-
-	public void setStdId(Integer stdId) {
-		this.stdId = stdId;
-	}
-
-
-
-
-
-
-	public String getStdName() {
-		return stdName;
-	}
-
-
-
-
-
-
-	public void setStdName(String stdName) {
-		this.stdName = stdName;
-	}
-
-
-
-
-
-
-	public Double getEnglish() {
-		return english;
-	}
-
-
-
-
-
-
-	public void setEnglish(Double english) {
-		this.english = english;
-	}
-
-
-
-
-
-
-	public Double getSanskrit() {
-		return sanskrit;
-	}
-
-
-
-
-
-
-	public void setSanskrit(Double sanskrit) {
-		this.sanskrit = sanskrit;
-	}
-
-
-
-
-
-
-	public Double getMaths() {
-		return maths;
-	}
-
-
-
-
-
-
-	public void setMaths(Double maths) {
-		this.maths = maths;
-	}
-
-
-
-
-
-
-	public Double getPhysics() {
-		return physics;
-	}
-
-
-
-
-
-
-	public void setPhysics(Double physics) {
-		this.physics = physics;
-	}
-
-
-
-
-
-
-	public Double getChemistry() {
-		return chemistry;
-	}
-
-
-
-
-
-
-	public void setChemistry(Double chemistry) {
-		this.chemistry = chemistry;
-	}
-
-
-
-
-
-
 	public Student() {
-		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+
+	
+	
 }

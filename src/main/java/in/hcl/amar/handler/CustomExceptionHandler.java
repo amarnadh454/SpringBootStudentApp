@@ -1,6 +1,5 @@
 package in.hcl.amar.handler;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
