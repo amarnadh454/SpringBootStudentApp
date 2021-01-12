@@ -25,25 +25,22 @@ public class StudentRestController {
 	@Autowired
 	private IStudentService service;
 
-	//Home
-	@GetMapping("/home")
-    public String home() {
-        return "Home Page";
-    }
-	
-	//welcome
-		@GetMapping("/welcome")
-	    public String welcome() {
-	        return "Hello Wellcome to Student Management App";
-	    }
-	//denied
-	@GetMapping("/denied")
-	public String denied() {
-		return "Access Not Matched";
-	}
+	/*
+	 * //Home
+	 * 
+	 * @GetMapping("/home") public String home() { return "Home Page"; }
+	 * 
+	 * //welcome
+	 * 
+	 * @GetMapping("/welcome") public String welcome() { return
+	 * "Hello Wellcome to Student Management App"; } //denied
+	 * 
+	 * @GetMapping("/denied") public String denied() { return "Access Not Matched";
+	 * }
+	 */
 	
 	// Save
-	@PostMapping("/save")
+	@PostMapping("/students")
 	public ResponseEntity<String> saveStudent(@RequestBody Student student) {
 		Integer id = service.saveStudent(student);
 
@@ -52,38 +49,38 @@ public class StudentRestController {
 	}
 
 	// fetch all
-	@GetMapping("/all")
+	@GetMapping("/students")
 	public ResponseEntity<List<Student>> getAllStudents() {
 		List<Student> list = service.getAllStudents();
 		return new ResponseEntity<List<Student>>(list, HttpStatus.OK);
 	}
 
 	// fetch one
-	@GetMapping("/one/{id}")
+	@GetMapping("/students/{id}")
 	public ResponseEntity<Student> getOneStudent(@PathVariable Integer id) {
 		Student student = service.getOneStudent(id);
 		return new ResponseEntity<Student>(student, HttpStatus.OK);
 	}
 
 	// delete
-	@DeleteMapping("/remove/{id}")
+	@DeleteMapping("/students/{id}")
 	public ResponseEntity<String> deleteStudent(@PathVariable Integer id){
 		service.deleteStudent(id);
 		return new ResponseEntity<String>("Student '"+id+"' Deleted", HttpStatus.OK);
 	}
 
 	// modify
-	@PutMapping("/modify/{id}")
+	@PutMapping("/students/{id}")
 	public ResponseEntity<String> updateStudent(
 			@PathVariable Integer id,
 			@RequestBody Student student){
 		Student db= service.getOneStudent(id);
 		db.setStdName(student.getStdName());
-		db.setEnglish(student.getEnglish());
-		db.setSanskrit(student.getSanskrit());
-		db.setMaths(student.getMaths());
-		db.setPhysics(student.getPhysics());
-		db.setChemistry(student.getChemistry());
+		db.setSubject_1(student.getSubject_1());
+		db.setSubject_2(student.getSubject_2());
+		db.setSubject_3(student.getSubject_3());
+		db.setSubject_4(student.getSubject_4());
+		db.setSubject_5(student.getSubject_5());
 		service.saveStudent(db);
 		return new ResponseEntity<String>("Student '"+id+"' Updated", HttpStatus.OK);
 	}
