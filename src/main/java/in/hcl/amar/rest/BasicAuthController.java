@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.hcl.amar.config.AuthenticationBean;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1")
 public class BasicAuthController {
 
+	@CrossOrigin(origins = "http://localhost:4200",  allowedHeaders = "*")
     @GetMapping(path = "/basicauth")
     public AuthenticationBean basicauth() {
         return new AuthenticationBean("You are authenticated");

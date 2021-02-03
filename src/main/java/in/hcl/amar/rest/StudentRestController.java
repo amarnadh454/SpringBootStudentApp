@@ -17,30 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.hcl.amar.model.Student;
 import in.hcl.amar.service.IStudentService;
-
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200",  allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1")
 public class StudentRestController {
 	@Autowired
 	private IStudentService service;
 
-	/*
-	 * //Home
-	 * 
-	 * @GetMapping("/home") public String home() { return "Home Page"; }
-	 * 
-	 * //welcome
-	 * 
-	 * @GetMapping("/welcome") public String welcome() { return
-	 * "Hello Wellcome to Student Management App"; } //denied
-	 * 
-	 * @GetMapping("/denied") public String denied() { return "Access Not Matched";
-	 * }
-	 */
 	
 	// Save
-	@PostMapping("/students")
+	@CrossOrigin(origins = "http://localhost:4200",  allowedHeaders = "*")
+	@PostMapping("/save")
 	public ResponseEntity<String> saveStudent(@RequestBody Student student) {
 		Integer id = service.saveStudent(student);
 
@@ -49,6 +36,7 @@ public class StudentRestController {
 	}
 
 	// fetch all
+	@CrossOrigin(origins = "http://localhost:4200",  allowedHeaders = "*")
 	@GetMapping("/students")
 	public ResponseEntity<List<Student>> getAllStudents() {
 		List<Student> list = service.getAllStudents();
@@ -56,6 +44,7 @@ public class StudentRestController {
 	}
 
 	// fetch one
+	@CrossOrigin(origins = "http://localhost:4200",  allowedHeaders = "*")
 	@GetMapping("/students/{id}")
 	public ResponseEntity<Student> getOneStudent(@PathVariable Integer id) {
 		Student student = service.getOneStudent(id);
@@ -63,14 +52,16 @@ public class StudentRestController {
 	}
 
 	// delete
-	@DeleteMapping("/students/{id}")
+	@CrossOrigin(origins = "http://localhost:4200",  allowedHeaders = "*")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteStudent(@PathVariable Integer id){
 		service.deleteStudent(id);
 		return new ResponseEntity<String>("Student '"+id+"' Deleted", HttpStatus.OK);
 	}
 
 	// modify
-	@PutMapping("/students/{id}")
+	@CrossOrigin(origins = "http://localhost:4200",  allowedHeaders = "*")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<String> updateStudent(
 			@PathVariable Integer id,
 			@RequestBody Student student){

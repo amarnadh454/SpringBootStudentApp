@@ -5,14 +5,17 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+@Configuration
+@EnableWebSecurity
 public class StudentSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -53,7 +56,7 @@ public class StudentSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        configuration.setAllowedOrigins(allowOrigins);
 	        configuration.setAllowedMethods(Collections.singletonList("*"));
 	        configuration.setAllowedHeaders(Collections.singletonList("*"));
-	        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+	        //if authentication is enabled this flag MUST be set, or CORS requests will fail
 	        configuration.setAllowCredentials(true);
 	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 	        source.registerCorsConfiguration("/**", configuration);
